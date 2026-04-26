@@ -1,0 +1,1 @@
+playwright==1.58.0\ntransformers>=4.30\npillow>=10.0\nhuggingface_hub>=0.16\nopenai>=1.0\nanthropic>=0.18\n
