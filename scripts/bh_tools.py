@@ -447,6 +447,16 @@ def test_fetch_placeholder_v3(url: str):
     return f'Fetched: {url}'
 
 
+
+
+
+
+def test_fetch_placeholder_v3(url: str):
+    """Test placeholder tool"""
+
+    return f'Fetched: {url}'
+
+
 def test_list_tool_v3():
 
     pass

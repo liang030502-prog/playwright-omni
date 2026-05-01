@@ -405,7 +405,7 @@ class OmniParserWrapper:
             if kw in description_lower:
                 # 排除明确非交互的
                 for nk in non_interactable_keywords:
-                    if nk in description_lower and kw not in ["icon"]:
+                    if nk in description_lower and kw not in ["icon", "button"]:
                         return False
                 return True
         

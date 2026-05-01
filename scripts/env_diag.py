@@ -67,7 +67,7 @@ print()
 print("[Chromium]")
 chromium_path = r"D:\OpenClaw\browsers\chromium-1208\chrome-win64\chrome.exe"
 print(f"  Chromium: {chromium_path}")
-print(f"  存在: {os.path.exists(chromiumium_path := chromium_path)}")
+print(f"  存在: {os.path.exists(chromium_path)}")
 
 print()
 print("=" * 60)

@@ -45,6 +45,10 @@ class ActionType(Enum):
     SWITCH_TAB = "SWITCH_TAB"
     DONE = "DONE"
     FAIL = "FAIL"
+    # ── browser-harness 兼容新增 ──────────────────────────────
+    COORD_CLICK = "COORD_CLICK"   # 坐标点击 fallback when selector fails
+    JS_EXEC = "JS_EXEC"           # 执行 JavaScript
+    HTTP_GET = "HTTP_GET"       # 纯 HTTP 请求（无浏览器）
 
 
 @dataclass
