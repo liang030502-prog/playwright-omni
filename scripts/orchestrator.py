@@ -151,6 +151,8 @@ class ScreenshotManager:
 # BrowserAgent 主类
 # ─────────────────────────────────────────────────────────
 
+
+from bh_tools import setup_download_listener, setup_dialog_listener
 class BrowserAgent:
     """
     浏览器自动化 Agent
@@ -238,7 +240,7 @@ class BrowserAgent:
     
     def _ensure_browser(self) -> BrowserSession:
         if self._browser is None:
-            self._browser = BrowserSession(self.browser_config)
+            self._browser = BrowserSession(self.browser_config, download_handler=self._download_handler, dialog_handler=self._dialog_handler)
             self._browser.__enter__()
         return self._browser
     
@@ -531,7 +533,28 @@ class BrowserAgent:
         
         elif action == ActionType.FAIL:
             raise RuntimeError(f"LLM decided FAIL: {value}")
-        
+        # ── browser-harness 兼容新增 action types ──────────────────
+        elif action == ActionType.COORD_CLICK:
+            # target 格式: "x,y" 或 "x,y,button"
+            parts = target.split(",")
+            x = float(parts[0])
+            y = float(parts[1]) if len(parts) > 1 else float(parts[0])
+            button = parts[2].strip() if len(parts) > 2 else "left"
+            browser.page.mouse.click(x, y, button=button)
+        elif action == ActionType.JS_EXEC:
+            # 执行 JavaScript
+            result = browser.page.evaluate(target)
+            if self.debug:
+                print(f"[JS_EXEC] result: {result}")
+        elif action == ActionType.HTTP_GET:
+            # 纯 HTTP 请求（通过 bh_tools.http_get）
+            from bh_tools import http_get
+            try:
+                html = http_get(target)
+                if self.debug:
+                    print(f"[HTTP_GET] {target}: {len(html)} bytes")
+            except Exception as e:
+                raise RuntimeError(f"http_get failed: {e}")
         else:
             raise RuntimeError(f"Unknown action: {action}")
     
